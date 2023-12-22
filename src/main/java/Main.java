@@ -16,6 +16,7 @@ public class Main {
         timeStamp = System.currentTimeMillis();
         System.out.println(getHumanReadableFormat(pool.invoke(calculator)));
         System.out.println(System.currentTimeMillis() - timeStamp);
+        System.out.println(getHumanReadableFormatWithoutLogarithms(240640));
         System.out.println("_______________________________________________________________________");
         System.out.println(getSizeFromHumanReadable("235K"));
         System.out.println(getSizeFromHumanReadable("23 MB"));
@@ -41,6 +42,16 @@ public class Main {
         double value = fileSize /(Math.pow(logBase1024, nameNumber));
         String result = String.format("%.2f", value);
         return result.concat(" ").concat(unitName[nameNumber]);
+    }
+    public static String getHumanReadableFormatWithoutLogarithms(long fileSize){
+        String[] unitName = new String[]{"B", "KB", "MB", "GB", "TB"};
+        for (int i = 0; i < unitName.length; i++){
+            double value = fileSize / Math.pow(1024, i);
+            if(value < 1024){
+                return Math.round(value) + " " + unitName[i];
+            }
+        }
+        return "Size too big";
     }
     public static long getSizeFromHumanReadable(String size){
         HashMap<Character, Long> char2multipliers = getMultipliers();
